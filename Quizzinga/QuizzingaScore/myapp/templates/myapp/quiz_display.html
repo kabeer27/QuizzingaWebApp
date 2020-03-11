@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head> Quiz Name: {{quiz.quiz_name}} </head>
+<li> Teams: </li>
+{% if team_list %}
+	<ul>
+	{% for team in team_list %}
+		<li>Team: <a href = "/myapp/{{quiz.id}}/teams/{{team.id}}">{{team.team_name}}</a> <br>
+		Team Score:<span class="b{{team.id}}"> {{team.team_score}}</span></li>
+
+		<button class = "ajax_score" type = "submit"  value = {{team.id}}  points = {{score.bounce_points}} >{% csrf_token %} +10 Bounce Correct </button>
+		<button class = "ajax_score" type = "submit"  value = {{team.id}} points = {{score.bounce_points_negative}}>{% csrf_token %}-0 Bounce Incorrect </button> 
+		<button class = "ajax_score" type = "submit"  value = {{team.id}} points = {{score.pounce_points}}>{% csrf_token %}+10 Pounce Correct </button>
+		<button class = "ajax_score" type = "submit"  value = {{team.id}} points = {{score.pounce_points_negative}}>{% csrf_token %}-10 Pounce Incorrect </button>
+	{% endfor %}
+	</ul>
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script type = "text/javascript">
+		$(".ajax_score").on('click', function()
+		{
+			var team_id = $(this).attr("value");
+			var points = parseInt($(this).attr("points"));
+			
+			$.ajax({
+				url: 'ajax_change_score/',
+				data: {
+					'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
+					'team_id': team_id,
+					'points': points
+				},
+				dataType: 'json',
+				type: 'POST',
+				success: function(data){
+					if(data.success)	{
+						let a = parseInt(document.querySelector('.b'+team_id).innerHTML);
+						document.querySelector('.b'+team_id).innerHTML = a + points;
+						console.log("Score update successful");
+					}
+					else
+					{
+						console.log("Score update failed");
+					}
+			}
+			});
+		});
+
+			//
+
+//			
+			
+	</script>
+{% else %}
+	<p> No teams are there. </p>
+{% endif %}
+
+</html>

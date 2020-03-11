@@ -1,0 +1,9 @@
+{% if quiz_list %}
+	<ul>
+	{% for quiz in quiz_list %}
+		<li> <a href = "/myapp/{{quiz.id}}/">{{quiz.quiz_name}}</a></li>
+	{% endfor %}
+	</ul>
+{% else %}
+	<p> No quizzes are there. </p>
+{% endif %}
