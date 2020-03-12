@@ -50,13 +50,25 @@ def results(request, quiz_id, team_id ):
 def ajax_change_score(request):
 	team_id = request.POST.get('team_id', 0)
 	points = request.POST.get('points', 0)
-	team = Team.objects.get(pk = team_id)
-	team.team_score += int(points)
-	team.save()
+	
 	try:
-		
+		team = Team.objects.get(pk = team_id)
+		team.team_score += int(points)
+		team.save()
 		return JsonResponse({"success": True})
 	except Exception as e:
 		return JsonResponse({"success": False})
 	
-	
+def quiz_display(request):
+	quiz_id = int(request.path([-2]))
+
+	quiz = Quiz.objects.get(pk = quiz_id)
+	team_list = Team.objects.filter(quiz_id = quiz_id)
+	score = score.objects.get(quiz_id = quiz_id)
+
+	context = {
+		'quiz': quiz,
+		'team_list': team_list,
+		'score': score
+	}
+	return JsonResponse(render_to_response('myapp/quiz_display.html',context))

@@ -6,9 +6,9 @@ from . import views
 urlpatterns = [
 
 	url(r'/ajax_change_score/', views.ajax_change_score, name = 'ajax_change_score'),
-
+	
     path('', views.index, name='index'),
-
+    url(r'^quiz_display/$', views.quiz_display, name='quiz_display'),
     path('<int:quiz_id>/', views.detail, name = 'detail'),
 
     path('<int:quiz_id>/teams/<int:team_id>', views.results, name = 'results'),

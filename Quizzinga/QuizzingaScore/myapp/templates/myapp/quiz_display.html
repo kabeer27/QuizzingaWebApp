@@ -2,19 +2,25 @@
 <html>
 
 <head> Quiz Name: {{quiz.quiz_name}} </head>
+
+
+
 <li> Teams: </li>
 {% if team_list %}
 	<ul>
 	{% for team in team_list %}
+		<div class = "update" quiz_id = {{quiz.id}}>
 		<li>Team: <a href = "/myapp/{{quiz.id}}/teams/{{team.id}}">{{team.team_name}}</a> <br>
 		Team Score:<span class="b{{team.id}}"> {{team.team_score}}</span></li>
-
+		</div>
 		<button class = "ajax_score" type = "submit"  value = {{team.id}}  points = {{score.bounce_points}} >{% csrf_token %} +10 Bounce Correct </button>
 		<button class = "ajax_score" type = "submit"  value = {{team.id}} points = {{score.bounce_points_negative}}>{% csrf_token %}-0 Bounce Incorrect </button> 
 		<button class = "ajax_score" type = "submit"  value = {{team.id}} points = {{score.pounce_points}}>{% csrf_token %}+10 Pounce Correct </button>
 		<button class = "ajax_score" type = "submit"  value = {{team.id}} points = {{score.pounce_points_negative}}>{% csrf_token %}-10 Pounce Incorrect </button>
 	{% endfor %}
+
 	</ul>
+
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script type = "text/javascript">
 		$(".ajax_score").on('click', function()
@@ -45,13 +51,32 @@
 			});
 		});
 
-			//
+	function refresh() {
+  		$.ajax({
+  		url: '',
+  		success: function(data) {
+  			var actual = document.querySelectorAll('.update')
+  			var doc = document.createElement('html');
+  			doc.innerHTML = data;
+  			var results = doc.querySelectorAll('.update')
+  			
+  			for(var i = 0;i < actual.length; i++)
+  				actual[i].replaceWith(results[i]);
+  			
+  			}
+ 		});
+	};
 
-//			
+
+$(document).ready(function ($) {
+  refresh();
+  var int = setInterval("refresh()", 2000);
+	});
+
+
 			
 	</script>
 {% else %}
 	<p> No teams are there. </p>
 {% endif %}
-
 </html>
