@@ -1,0 +1,51 @@
+.Correct {
+  background-color: #33cc33;
+  
+  border-radius: 10px;
+  color: white;
+  padding: 10px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+
+}
+.Correct:hover{
+	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+	border: 2px solid #009900;
+}
+.Incorrect  {
+  background-color: #cc0000;
+  
+  border-radius: 10px;
+  color: white;
+  padding: 10px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+
+}
+.Incorrect:hover{
+	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    border: 2px solid #800000;
+}
+.flex-container{
+	display: flex;
+	background-color: #ffff99;
+	flex-direction: row;
+	align-items: center;
+}
+.flex-container > div{
+  background-color: #ffa64d;
+  margin: 10px;
+  padding: 20px;
+  font-size: 30px;
+}
+

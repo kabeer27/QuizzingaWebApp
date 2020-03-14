@@ -1,24 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html >
 
-<head> Quiz Name: {{quiz.quiz_name}} </head>
+<h1 style="color:black" align = "center"> Quiz Name: {{quiz.quiz_name}}  </h1>
+ <body style="background-color:#ffff99;">
 
 
-
-<li> Teams: </li>
 {% if team_list %}
 	<ul>
+	<div class = "flex-container">
 	{% for team in team_list %}
+		<div>
 		<div class = "update" quiz_id = {{quiz.id}}>
-		<li>Team: <a href = "/myapp/{{quiz.id}}/teams/{{team.id}}">{{team.team_name}}</a> <br>
-		Team Score:<span class="b{{team.id}}"> {{team.team_score}}</span></li>
+		Team: <a href = "/myapp/{{quiz.id}}/teams/{{team.id}}">{{team.team_name}}</a> <br>
+		Team Score:<span class="b{{team.id}}"> {{team.team_score}}</span><br>
 		</div>
-		<button class = "ajax_score" type = "submit"  value = {{team.id}}  points = {{score.bounce_points}} >{% csrf_token %} +10 Bounce Correct </button>
-		<button class = "ajax_score" type = "submit"  value = {{team.id}} points = {{score.bounce_points_negative}}>{% csrf_token %}-0 Bounce Incorrect </button> 
-		<button class = "ajax_score" type = "submit"  value = {{team.id}} points = {{score.pounce_points}}>{% csrf_token %}+10 Pounce Correct </button>
-		<button class = "ajax_score" type = "submit"  value = {{team.id}} points = {{score.pounce_points_negative}}>{% csrf_token %}-10 Pounce Incorrect </button>
+		<br>
+		<button class = "ajax_score Correct" type = "submit"  value = {{team.id}}  points = {{score.bounce_points}} >{% csrf_token %} +10 Bounce </button>
+		<button class = "ajax_score Incorrect" type = "submit"  value = {{team.id}} points = {{score.bounce_points_negative}}>{% csrf_token %}-0 Bounce </button>
+		<br>
+		<button class = "ajax_score Correct" type = "submit"  value = {{team.id}} points = {{score.pounce_points}}>{% csrf_token %}+10 Pounce </button>
+		<button class = "ajax_score Incorrect" type = "submit"  value = {{team.id}} points = {{score.pounce_points_negative}}>{% csrf_token %}-10 Pounce </button>
+		</div>
+		<br>
 	{% endfor %}
-
+	</div>
 	</ul>
 
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
@@ -55,9 +60,13 @@
   		$.ajax({
   		url: '',
   		success: function(data) {
+  			// with this i get all the teams of my actual page in an array 
   			var actual = document.querySelectorAll('.update')
+  			// creating a document type element
   			var doc = document.createElement('html');
+  			// using this to convert my data which is a string containing the HTML code in string format to document object
   			doc.innerHTML = data;
+  			// getting the updated values of all the teams in a new array
   			var results = doc.querySelectorAll('.update')
   			
   			for(var i = 0;i < actual.length; i++)
@@ -79,4 +88,58 @@ $(document).ready(function ($) {
 {% else %}
 	<p> No teams are there. </p>
 {% endif %}
+</body>
+<style>
+.Correct {
+  background-color: #33cc33;
+  
+  border-radius: 10px;
+  color: white;
+  padding: 10px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+
+}
+.Correct:hover{
+	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+	border: 2px solid #009900;
+}
+.Incorrect  {
+  background-color: #cc0000;
+  
+  border-radius: 10px;
+  color: white;
+  padding: 10px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+
+}
+.Incorrect:hover{
+	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    border: 2px solid #800000;
+}
+.flex-container{
+	display: flex;
+	background-color: #ffff99;
+	flex-direction: row;
+	align-items: center;
+}
+.flex-container > div{
+  background-color: #ffa64d;
+  margin: 10px;
+  padding: 20px;
+  font-size: 30px;
+}
+
+</style>
 </html>

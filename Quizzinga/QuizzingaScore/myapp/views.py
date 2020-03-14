@@ -58,17 +58,26 @@ def ajax_change_score(request):
 		return JsonResponse({"success": True})
 	except Exception as e:
 		return JsonResponse({"success": False})
-	
-def quiz_display(request):
-	quiz_id = int(request.path([-2]))
 
-	quiz = Quiz.objects.get(pk = quiz_id)
-	team_list = Team.objects.filter(quiz_id = quiz_id)
-	score = score.objects.get(quiz_id = quiz_id)
+def leaderboard(request, quiz_id):
+	try:
+		quiz = Quiz.objects.get(pk = quiz_id)
+	except quiz.DoesNotExist:
+		raise Http404("Quiz does not exist")
+
+	unordered_team_list = Team.objects.filter(quiz_id = quiz_id)
+	temp_list = []
+	for team in unordered_team_list:
+		temp_list.append((-team.team_score,team.id))
+	temp_list.sort()
+	ordered_team_list = []
+	for team in temp_list:
+		ordered_team_list.append(Team.objects.get(pk = team[1]))
 
 	context = {
-		'quiz': quiz,
-		'team_list': team_list,
-		'score': score
+		'team_list': ordered_team_list,
+		'quiz': quiz
 	}
-	return JsonResponse(render_to_response('myapp/quiz_display.html',context))
+	return render(request, 'myapp/leaderboard.html', context)
+
+	

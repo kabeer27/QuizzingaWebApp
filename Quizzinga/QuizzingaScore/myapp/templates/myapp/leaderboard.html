@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head> {{quiz.quiz_name}} Leaderboard </head>
+{% if team_list %}
+	<ul>
+	{% for team in team_list %}
+		<div class = "update">
+		<li>Team: <a href = "/myapp/{{quiz.id}}/teams/{{team.id}}">{{team.team_name}}</a> <br>
+		Team Score: {{team.team_score}}</li>
+		</div>
+	
+	{% endfor %}
+	</ul>
+{% else %}
+	<p> No teams are there. </p>
+{% endif %}
+
+</html>
